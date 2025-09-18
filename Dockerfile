@@ -1,9 +1,19 @@
 FROM php:apache
+FROM php:7.4-cli
+
+# system deps as needed...
+# RUN apt-get update && apt-get install -y libzip-dev && docker-php-ext-install zip pdo_mysql
+
+WORKDIR /app
 COPY composer.json composer.lock ./
 
 RUN apt-get update && apt-get install -y zip libzip-dev libpng-dev \
     && docker-php-ext-install pdo_mysql gd zip \
     && rm -rf /var/lib/apt/lists/*
+
+RUN php -r "copy('https://getcomposer.org/installer','composer-setup.php');" \
+ && php composer-setup.php --install-dir=/usr/local/bin --filename=composer \
+ && rm composer-setup.php
 
 # Composer installation.
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
