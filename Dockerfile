@@ -9,8 +9,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN composer global require hirak/prestissimo --prefer-dist --no-progress --no-suggest --classmap-authoritative \
-	&& composer clear-cache
+RUN composer install --no-dev --optimize-autoloader
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
 COPY . /var/www/html/
