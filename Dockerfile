@@ -1,6 +1,11 @@
 FROM php:apache
 FROM php:7.4-cli
 
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends git unzip libzip-dev \
+ && docker-php-ext-install zip \
+ && rm -rf /var/lib/apt/lists/*
+
 # system deps as needed...
 # RUN apt-get update && apt-get install -y libzip-dev && docker-php-ext-install zip pdo_mysql
 
