@@ -8,6 +8,9 @@ RUN apt-get update && apt-get install -y zip libzip-dev libpng-dev \
 # Composer installation.
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+RUN sed -i 's/"LaravelCollective\/html"/"laravelcollective\/html"/g' composer.json \
+    && sed -i 's/"laravelCollective\/html"/"laravelcollective\/html"/g' composer.json
+
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
