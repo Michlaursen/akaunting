@@ -1,4 +1,6 @@
 FROM php:apache
+FROM php:8.2-cli
+RUN composer install --no-dev --optimize-autoloader
 
 RUN apt-get update && apt-get install -y zip libzip-dev libpng-dev \
     && docker-php-ext-install pdo_mysql gd zip \
